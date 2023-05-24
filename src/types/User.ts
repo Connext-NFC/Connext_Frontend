@@ -56,6 +56,13 @@ export interface IUserInfo {
   career: string;
   shortBio: string;
 }
+
+
+export interface IChangePassword{
+  newPassword: FormDataEntryValue | null;
+  confirmPassword: FormDataEntryValue | null;
+}
+
 export type userInfoKey = keyof IUserInfo;
 export type SOCIAL_LIST = keyof IUserInfo["socialMedia"];
 
