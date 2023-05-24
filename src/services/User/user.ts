@@ -5,13 +5,20 @@ import type { IUserApiCall } from "./types";
 const token = localStorage.getItem("accessToken");
 
 const UserApiCall: IUserApiCall = {
-  getUserInfo: async () => {
+  getUserInfoByToken: async () => {
     return api({
       method: "GET",
       url: `/user/getUserInfo`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+  },
+
+  getUserInfoByUserName: async (username: string) => {
+    return api({
+      method: "GET",
+      url: `/user/getOtherUserInfo/${username}`,
     });
   },
 

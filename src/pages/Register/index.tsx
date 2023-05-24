@@ -45,7 +45,7 @@ import { useNavigate } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import SocialTextFields from "../../components/SocialTextFields";
 import PrivateAbleTextFields from "../../components/PrivateAbleTextFields";
-import { UserInfo } from "os";
+
 // TODO: Separate Update user information to a new page
 type Props = {};
 
@@ -184,7 +184,7 @@ function index({}: Props) {
       let token = authAPIResponse.data.accessToken;
 
       const userAPIResponse: AxiosResponse<IUserInfo> =
-        await UserApiCall.getUserInfo();
+        await UserApiCall.getUserInfoByToken();
 
       handleAlertChange({});
 

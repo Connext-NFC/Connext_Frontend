@@ -5,6 +5,7 @@ export interface IUserCredential {
   password: FormDataEntryValue | null;
 }
 
+export type UseStringAsKey = { [key: string]: any };
 export interface IUserRegisterInfo {
   firstName: FormDataEntryValue | null;
   lastName: FormDataEntryValue | null;
@@ -14,7 +15,7 @@ export interface IUserRegisterInfo {
   bornDate: Dayjs | null;
 }
 
-export interface IUserInfo {
+export type IUserInfo = UseStringAsKey | {
   email: {
     data: string;
     isShow: boolean;
@@ -55,7 +56,8 @@ export interface IUserInfo {
   __v: number;
   career: string;
   shortBio: string;
-}
+};
+
 export type userInfoKey = keyof IUserInfo;
 export type SOCIAL_LIST = keyof IUserInfo["socialMedia"];
 

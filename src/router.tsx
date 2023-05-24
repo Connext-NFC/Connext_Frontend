@@ -6,15 +6,25 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import NotFound404 from "./pages/NotFound404";
+import UserProfile from "./pages/UserProfile";
 
 import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
+
 
 //TODO: create real Navbar
 const Navbar = () => (
   <Box sx={{ width: "50vw", display: "flex", justifyContent: "space-between" }}>
-    <Link to="/">Home</Link>
-    <Link to="/login">Login</Link>
-    <Link to="/register">Register</Link>
+    <Link to="/"> home </Link>
+
+    {localStorage.getItem("accessToken") && (
+
+      <Box>
+
+        <Link to="/login">Login</Link>
+        <Link to="/register">Register</Link>
+      </Box>
+    )}
   </Box>
 );
 
@@ -54,6 +64,14 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: ":userName",
+        element: <UserProfile />,
+      },
+      {
+        path: "/notFound",
+        element: <NotFound404 />,
       },
     ],
   },
