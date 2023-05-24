@@ -1,5 +1,5 @@
 import api from "../../utils/api";
-import { IUserCredential } from "../../types/User";
+import { IUserRegisterInfo, IUserCredential } from "../../types/User";
 import type { IAuthApiCall } from "./types";
 
 const AuthApiCall: IAuthApiCall = {
@@ -8,6 +8,14 @@ const AuthApiCall: IAuthApiCall = {
       method: "POST",
       url: `/auth/login`,
       data: userCredential,
+    });
+  },
+
+  register: async (registerPayload: IUserRegisterInfo) => {
+    return api({
+      method: "POST",
+      url: `/auth/register`,
+      data: registerPayload,
     });
   },
 };

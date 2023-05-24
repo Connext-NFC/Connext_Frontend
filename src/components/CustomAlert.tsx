@@ -7,7 +7,7 @@ const CustomAlert = () => {
 
   return (
     <Alert
-      severity="error"
+      severity={alertInfo.alertType}
       style={!alertInfo.showAlert ? { visibility: "hidden" } : {}}
       sx={{
         position: "fixed",

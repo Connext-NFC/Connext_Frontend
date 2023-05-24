@@ -7,11 +7,11 @@ import {
 } from "../components/alertType";
 
 // Define a context for the alert and the handleAlertChange function
-export const AlertContext = createContext<{
+const AlertContext = createContext<{
   alertInfo: IAlertInfo;
   handleAlertChange: IHandleAlertChange;
 }>({
-  alertInfo: { showAlert: false, alertType: "error", alertMsg: "ccc" },
+  alertInfo: { showAlert: false, alertType: "error", alertMsg: "" },
   handleAlertChange: () => {},
 });
 
@@ -19,7 +19,7 @@ type Props = {
   children: JSX.Element;
 };
 // Create a provider component for the AlertContext
-export const AlertProvider: React.FC<Props> = ({ children }: Props) => {
+const AlertProvider: React.FC<Props> = ({ children }: Props) => {
   const [alertInfo, setAlertInfo] = useState<IAlertInfo>({
     showAlert: false,
     alertType: "error",
@@ -30,6 +30,7 @@ export const AlertProvider: React.FC<Props> = ({ children }: Props) => {
     type,
     msg,
   }: IHandleAlert = {}) => {
+    console.log(type);
     msg && type
       ? setAlertInfo({
           alertMsg: msg,
@@ -49,3 +50,5 @@ export const AlertProvider: React.FC<Props> = ({ children }: Props) => {
     </AlertContext.Provider>
   );
 };
+
+export { AlertContext, AlertProvider };

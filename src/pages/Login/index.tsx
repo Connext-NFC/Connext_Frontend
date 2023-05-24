@@ -21,8 +21,8 @@ import { regexValidator } from "../../utils/regexValidator";
 import { AlertContext } from "../../context/alertContext";
 
 export default function index() {
-  const { handleAlertChange } = useContext(AlertContext);
   const navigate = useNavigate();
+  const { handleAlertChange } = useContext(AlertContext);
   const [loading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,12 +64,12 @@ export default function index() {
 
   function validateLoginData({ email, password }: IUserCredential): boolean {
     if (typeof email === "string" && typeof password === "string") {
-      console.log(
-        email,
-        password,
-        regexValidator.email(email),
-        regexValidator.password(password)
-      );
+      // console.log(
+      //   email,
+      //   password,
+      //   regexValidator.email(email),
+      //   regexValidator.password(password)
+      // );
       return regexValidator.email(email) && regexValidator.password(password);
     }
     return false;
@@ -191,7 +191,9 @@ export default function index() {
             {loading ? (
               <CircularProgress color="inherit" size={16} />
             ) : (
-              <span>LOGIN</span>
+              <Typography sx={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+                LOGIN
+              </Typography>
             )}
           </Button>
         </Box>
