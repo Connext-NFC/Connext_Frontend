@@ -35,6 +35,7 @@ import {
   privateAbleKey,
   privateAbleKeyType,
   SOCIAL_LIST,
+  userInfoKey,
 } from "../../types/User";
 import { SHA256 } from "crypto-js";
 import { AuthApiCall } from "../../services/Auth/auth";
@@ -44,7 +45,8 @@ import { useNavigate } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import SocialTextFields from "../../components/SocialTextFields";
 import PrivateAbleTextFields from "../../components/PrivateAbleTextFields";
-
+import { UserInfo } from "os";
+// TODO: Separate Update user information to a new page
 type Props = {};
 
 function index({}: Props) {
@@ -107,6 +109,19 @@ function index({}: Props) {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const privateAbleKey: privateAbleKeyType[] = ["email", "phone", "website"];
+  const PAYLOAD_KEY: userInfoKey[] = [
+    "email",
+    "phone",
+    "website",
+    "socialMedia",
+    "firstName",
+    "lastName",
+    "userName",
+    "bornDate",
+    "attention",
+    "career",
+    "shortBio",
+  ];
 
   const MenuProps = {
     PaperProps: {
@@ -191,6 +206,11 @@ function index({}: Props) {
       userInfo.attention = interested;
       userInfo.career = career;
 
+      let payload: { [key: string]: any } = {};
+      PAYLOAD_KEY.map((key: userInfoKey) => {
+        payload[key] = userInfo[key];
+      });
+
       const userAPIResponse = await UserApiCall.updateUserInfo(userInfo);
       if (userAPIResponse.status === 200) {
         handleAlertChange({
@@ -226,7 +246,7 @@ function index({}: Props) {
     if (!regexValidator.url(website.data) || website.data === "") {
       handleAlertChange({
         type: "error",
-        msg: "URL have to start with http or https",
+        msg: "URL have to start with http or https or www",
       });
       return false;
     }

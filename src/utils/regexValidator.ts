@@ -7,7 +7,7 @@ const REGEX_PASSWORD: RegExp =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,50}$/;
 const REGEX_NAME: RegExp = /^[A-Z]{2,50}$/i;
 const REGEX_PHONE: RegExp = /^0[0-9]{8,9}$/;
-const REGEX_LINK: RegExp = /^(https?):\/\/[^\s/$.?#].[^\s]*$/;
+const REGEX_LINK: RegExp = /^(https?|www):\/\/[^\s/$.?#].[^\s]*$/;
 
 /**
  *
