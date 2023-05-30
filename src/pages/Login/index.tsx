@@ -162,7 +162,7 @@ export default function index() {
               mt: 1,
             }}
           >
-            <Link href="/forgotPassword1" variant="body2" underline="hover">
+            <Link href="/forgotPassword" variant="body2" underline="hover">
               Forgot password?
             </Link>
             <Typography variant="body2">
