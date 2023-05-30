@@ -6,9 +6,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import NotFound404 from "./pages/NotFound404";
-import ForgotPassword2 from "./pages/ForgotPassword2";
-import ForgotPassword1 from "./pages/ForgotPassword1";
-import ForgotPassword3 from "./pages/ForgotPassword3";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import { Box } from "@mui/system";
 
@@ -59,17 +57,9 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path:"forgotPassword1",
-        element:<ForgotPassword1/>
-      },
-      {
-        path:"forgotPassword2",
-        element:<ForgotPassword2/>
-      },
-      {
-        path:"forgotPassword3",
-        element:<ForgotPassword3/>
-      },
+        path:"forgotPassword",
+        element:<ForgotPassword />
+      }
     ],
   },
 ]);
