@@ -17,13 +17,14 @@ import {
   Tab,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import SettingsIcon from "@mui/icons-material/Settings";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import { IUserInfo } from "../../types/User";
 import { UserApiCall } from "../../services/User/user";
 import NotFound404 from "../NotFound404";
-// import InfoBox from "./Info";
+import { TabPanel, TabContext, TabList } from "@mui/lab";
+import InfoBox from "./Info";
 
 import { type } from "os";
 import { json } from "node:stream/consumers";
@@ -42,14 +43,19 @@ export default function index() {
   const { userName } = useParams<IParams>();
   useEffect(() => {
     UserApiCall.getOtherUserInfo(userName).then((res) => {
-      console.log(res)
+      console.log(res);
       setUserInfo(res.data);
       setDidFetch(true);
     });
   }, []);
 
-  console.log(didFetch,userInfo);
-  return userInfo && didFetch ?(
+  const handleShowState = (event: React.SyntheticEvent, newState: IState) => {
+    event.preventDefault();
+    setShowState(newState);
+  };
+
+  console.log(didFetch, userInfo);
+  return userInfo && didFetch ? (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
@@ -57,6 +63,7 @@ export default function index() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          position: "relative",
         }}
       >
         <Box
@@ -91,7 +98,7 @@ export default function index() {
               variant="rounded"
               sx={{ m: 1, bgcolor: "inherit", color: "black" }}
             >
-              <MoreHorizIcon fontSize="small" />
+              <SettingsIcon fontSize="small" />
             </Avatar>
           </Box>
           <Box
@@ -131,7 +138,6 @@ export default function index() {
               position: "relative",
               width: "100%",
               height: "70px",
-              pr: "1.25rem",
             }}
           >
             <Box
@@ -158,6 +164,7 @@ export default function index() {
                 width: "70%",
                 display: "flex",
                 alignItems: "center",
+                pr: "1.25rem",
               }}
             >
               <Box
@@ -202,9 +209,14 @@ export default function index() {
                   Following
                 </Typography>
               </Box>
-              <Avatar variant="rounded" sx={{ mx:{xs:1,sm:1}, bgcolor: "#6E6E6E" }}>
-                <EditIcon fontSize="small" />
-              </Avatar>
+              <Link>
+                <Avatar
+                  variant="rounded"
+                  sx={{ mx: 1, bgcolor: "#D9D9DA", color: "#6E6E6E",borderRadius:"16px" }}
+                >
+                  <EditIcon fontSize="small" />
+                </Avatar>
+              </Link>
             </Box>
           </Box>
         </Box>
@@ -222,14 +234,14 @@ export default function index() {
               height: "2.5rem",
               color: "white",
               bgcolor: "#FD9340",
-              px: "2.5rem",
+              width: "60%",
               borderRadius: "16px",
               mr: 1,
-              textTransform:"none"
+              textTransform: "none",
             }}
           >
-            <Avatar variant="rounded" sx={{ bgcolor: "inherit" }}>
-                <AddCircleIcon fontSize="medium" />
+            <Avatar variant="rounded" sx={{ bgcolor: "inherit", m: 0 }}>
+              <AddCircleIcon fontSize="medium" />
             </Avatar>
             <Typography
               sx={{
@@ -248,9 +260,9 @@ export default function index() {
               color: "#FD9340",
               bgcolor: "white",
               border: "2px solid #FD9340",
-              px: "1rem",
+              width: "30%",
               borderRadius: "16px",
-              textTransform:"none"
+              textTransform: "none",
             }}
           >
             <Typography
@@ -264,31 +276,28 @@ export default function index() {
               New event
             </Typography>
           </Button>
-        </Box> 
-        {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Item One" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
-          </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
-        {/* {showStete == "Info" ? <InfoBox {...userInfo} /> : <Box></Box>} */}
+        <TabContext value={showStete}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+            <TabList
+              onChange={handleShowState}
+              aria-label="lab API tabs example"
+              variant="fullWidth"
+            >
+              <Tab label="Info" value="Info" />
+              <Tab label="Event" value="Event" />
+              <Tab label="Post" value="Post" />
+            </TabList>
+          </Box>
+          <TabPanel value="Info" sx={{ width: "100%", padding: 0 }}>
+            <InfoBox {...userInfo} />
+          </TabPanel>
+          <TabPanel value="Event">Event</TabPanel>
+          <TabPanel value="Post">Post</TabPanel>
+        </TabContext>
       </Box>
     </Container>
-  ):(
-    <NotFound404/>
+  ) : (
+    <NotFound404 />
   );
 }
