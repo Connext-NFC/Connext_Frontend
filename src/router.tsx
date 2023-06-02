@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import NotFound404 from "./pages/NotFound404";
 import ForgotPassword from "./pages/ForgotPassword";
+import UserProfile from "./pages/UserProfile";
 
 import { Box } from "@mui/system";
 
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path:"forgotPassword",
         element:<ForgotPassword />
+      },
+      {
+        path:"userProfile/:userName",
+        element:<UserProfile/>
       }
     ],
   },
