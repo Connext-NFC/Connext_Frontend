@@ -3,7 +3,7 @@ import { UserInfoContextType,IUserInfo} from "../types/User";
 import { UserApiCall } from "../services/User/user";
 
 const UserContext = createContext<UserInfoContextType>({
-    userInfo:null,
+    userInfoContext:null,
     getUserInfoContext:()=>{},
     updateUserInfoContext:()=>{}
 });
@@ -13,20 +13,20 @@ type Props = {
   };
 
 const UserProvider : React.FC<Props>=({ children } : Props) =>{
-    const [userInfo,setUserInfo] = useState<IUserInfo | null>(null);
+    const [userInfoContext,setUserInfoContext] = useState<IUserInfo | null>(null);
 
-    const getUserInfoContext =()=>{
-        UserApiCall.getUserInfo().then((res) => {
-            setUserInfo(res.data);
+    const getUserInfoContext =async()=>{
+        await UserApiCall.getUserInfo().then(async(res) => {
+            await setUserInfoContext(res.data);
           });
     }
 
     const updateUserInfoContext =(newUserInfo : IUserInfo)=>{
-        setUserInfo(newUserInfo);
+        setUserInfoContext(newUserInfo);
     }
 
     return(
-        <UserContext.Provider value={{userInfo,getUserInfoContext,updateUserInfoContext}}>
+        <UserContext.Provider value={{userInfoContext,getUserInfoContext,updateUserInfoContext}}>
             {children}
         </UserContext.Provider>
     )
