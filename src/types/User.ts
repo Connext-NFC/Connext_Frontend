@@ -74,7 +74,7 @@ export type IGetUserInfoContext =() => void;
 export type IUpdateUserInfoContext =(newUserInfo : IUserInfo) =>void
 
 export type UserInfoContextType = {
-  userInfo: IUserInfo | null;
+  userInfoContext: IUserInfo | null;
   getUserInfoContext:IGetUserInfoContext;
   updateUserInfoContext: IUpdateUserInfoContext;
 };
