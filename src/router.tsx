@@ -1,5 +1,6 @@
 import { createBrowserRouter, Link, Outlet } from "react-router-dom";
 import { AlertProvider } from "./context/alertContext";
+import { UserProvider } from "./context/userContext";
 import CustomAlert from "./components/CustomAlert";
 
 import Login from "./pages/Login";
@@ -24,18 +25,20 @@ const Navbar = () => (
 //TODO: create header and add header to router
 const Layout = () => (
   <AlertProvider>
-    <Box
-      sx={{
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <CustomAlert />
-      {/* <header>
-        <Navbar />
-      </header> */}
-      <Outlet />
-    </Box>
+    <UserProvider>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <CustomAlert />
+        {/* <header>
+          <Navbar />
+        </header> */}
+        <Outlet />
+      </Box>
+    </UserProvider>
   </AlertProvider>
 );
 

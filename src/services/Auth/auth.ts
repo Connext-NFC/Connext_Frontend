@@ -7,7 +7,6 @@ const token = localStorage.getItem("accessToken");
 
 const AuthApiCall: IAuthApiCall = {
   login: async (userCredential: IUserCredential) => {
-    console.log(token)
     return api({
       method: "POST",
       url: `/auth/login`,

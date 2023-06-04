@@ -6,6 +6,7 @@ const token = localStorage.getItem("accessToken");
 
 const UserApiCall: IUserApiCall = {
   getUserInfo: async () => {
+    const token = await localStorage.getItem("accessToken");
     return api({
       method: "GET",
       url: `/user/getUserInfo`,

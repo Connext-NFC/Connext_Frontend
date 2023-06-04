@@ -69,3 +69,12 @@ export type SOCIAL_LIST = keyof IUserInfo["socialMedia"];
 export const privateAbleKey = ["email", "phone", "website"] as const;
 export type privateAbleKeyType = "email" | "phone" | "website";
 // export type privateAbleKeyType = typeof privateAbleKey;
+
+export type IGetUserInfoContext =() => void;
+export type IUpdateUserInfoContext =(newUserInfo : IUserInfo) =>void
+
+export type UserInfoContextType = {
+  userInfo: IUserInfo | null;
+  getUserInfoContext:IGetUserInfoContext;
+  updateUserInfoContext: IUpdateUserInfoContext;
+};
