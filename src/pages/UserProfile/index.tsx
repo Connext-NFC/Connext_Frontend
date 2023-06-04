@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import { SHA256 } from "crypto-js";
 // import { TabPanel } from "@mui/lab";
@@ -25,6 +25,7 @@ import { UserApiCall } from "../../services/User/user";
 import NotFound404 from "../NotFound404";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 import InfoBox from "./Info";
+import { UserContext } from "../../context/userContext";
 
 import { type } from "os";
 import { json } from "node:stream/consumers";
@@ -43,7 +44,7 @@ export default function index() {
   const { userName } = useParams<IParams>();
   useEffect(() => {
     UserApiCall.getOtherUserInfo(userName).then((res) => {
-      console.log(res);
+      // console.log(res);
       setUserInfo(res.data);
       setDidFetch(true);
     });
@@ -54,7 +55,6 @@ export default function index() {
     setShowState(newState);
   };
 
-  console.log(didFetch, userInfo);
   return userInfo && didFetch ? (
     <Container component="main" maxWidth="xs">
       <Box
