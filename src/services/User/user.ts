@@ -36,6 +36,28 @@ const UserApiCall: IUserApiCall = {
       data: payload,
     });
   },
+
+  follow:async(followId : string | undefined)=>{
+    return api({
+      method:"POST",
+      url:`/user/follow`,
+      headers:{
+        Authorization: `Bearer ${token}`,
+      },
+      data:{followId:followId}
+    });
+  },
+
+  unfollow:async(unfllowId:string | undefined)=>{
+    return api({
+      method:"POST",
+      url:`/user/unfollow`,
+      headers:{
+        Authorization: `Bearer ${token}`,
+      },
+      data:{followId:unfllowId}
+    })
+  }
 };
 
 export { UserApiCall };

@@ -56,8 +56,8 @@ export default function index(userInfo : IUserInfo | undefined) {
             borderTopLeftRadius:"45px",
             borderTopRightRadius:"45px",
             paddingX:"1.25rem",
-            position:"absolute",
-            bottom:0,
+            // position:"absolute",
+            // bottom:0,
         }} maxWidth="xs" >
             <Box>
                 <Typography align="center">
