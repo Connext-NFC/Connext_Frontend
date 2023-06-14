@@ -181,20 +181,23 @@ function index({}: Props) {
         msg: "Register Process Successfully",
       });
 
-      let token = authAPIResponse.data.accessToken;
+      localStorage.setItem("accessToken", authAPIResponse.data.accessToken);
+      navigate("/")
 
-      const userAPIResponse: AxiosResponse<IUserInfo> =
-        await UserApiCall.getUserInfo();
+      // let token = authAPIResponse.data.accessToken;
 
-      handleAlertChange({});
+      // const userAPIResponse: AxiosResponse<IUserInfo> =
+      //   await UserApiCall.getUserInfo();
 
-      if (userAPIResponse.status === 200) {
-        setUserInfo(userAPIResponse.data);
-        setDidFetch(true);
-        localStorage.setItem("accessToken", token);
-      } else {
-        navigate("/login");
-      }
+      // handleAlertChange({});
+
+      // if (userAPIResponse.status === 200) {
+      //   setUserInfo(userAPIResponse.data);
+      //   setDidFetch(true);
+      //   localStorage.setItem("accessToken", token);
+      // } else {
+      //   navigate("/login");
+      // }
     }
   };
 

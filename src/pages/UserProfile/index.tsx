@@ -176,7 +176,7 @@ export default function index() {
                 position: "absolute",
                 top: "-50px",
                 border: "2px solid white",
-                left: "20px",
+                left: "10px",
                 width: "100px",
                 height: "100px",
                 borderRadius: "50%",
@@ -195,7 +195,9 @@ export default function index() {
                 width: "70%",
                 display: "flex",
                 alignItems: "center",
-                pr: "1.25rem",
+                // pr: "1.25rem",
+                justifyContent:"space-around"
+                
               }}
             >
               <Box
@@ -203,7 +205,7 @@ export default function index() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  mx: 2,
+                  // mx: 2,
                 }}
               >
                 <Typography
@@ -224,7 +226,7 @@ export default function index() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  mx: 2,
+                  // mx: 2,
                 }}
               >
                 <Typography
@@ -242,11 +244,11 @@ export default function index() {
               </Box>
               {token != null &&
               jwtDecode<IAccessToken>(token).userName === userName ? (
-                <Link>
+                <Link href="/UpdateUser">
                   <Avatar
                     variant="rounded"
                     sx={{
-                      mx: 1,
+                      // mx: 1,
                       bgcolor: "#D9D9DA",
                       color: "#6E6E6E",
                       borderRadius: "16px",
@@ -260,7 +262,7 @@ export default function index() {
                   <Avatar
                     variant="rounded"
                     sx={{
-                      mx: 1,
+                      // mx: 1,
                       bgcolor: "#D9D9DA",
                       color: "#6E6E6E",
                       borderRadius: "16px",
@@ -274,7 +276,7 @@ export default function index() {
                   <Avatar
                     variant="rounded"
                     sx={{
-                      mx: 1,
+                      // mx: 1,
                       bgcolor: "#D9D9DA",
                       color: "#6E6E6E",
                       borderRadius: "16px",
