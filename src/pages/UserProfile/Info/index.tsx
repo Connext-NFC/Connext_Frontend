@@ -40,7 +40,7 @@ const SOCIALS_PATH_LIST: { [key in SOCIAL_LIST]: string } = {
   facebook: facebookImg,
 };
 
-export default function index(userInfo : IUserInfo | undefined) {
+export default function index({userInfo}: {userInfo: IUserInfo | undefined}) {
   return userInfo!=undefined? (
     <Box>
         <Box sx={{
