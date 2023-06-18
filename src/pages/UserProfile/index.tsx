@@ -27,12 +27,16 @@ import { UserApiCall } from "../../services/User/user";
 import NotFound404 from "../NotFound404";
 import { TabPanel, TabContext, TabList } from "@mui/lab";
 import InfoBox from "./Info";
+import PostBox from "./Post";
 import { UserContext } from "../../context/userContext";
+import AddPostModal from "../../components//AddPostModal"
 
 import { type } from "os";
 import { json } from "node:stream/consumers";
 import jwtDecode from "jwt-decode";
 import { IAccessToken } from "../../types/Token";
+import axios from "axios";
+import { rmSync } from "fs";
 
 type IParams = {
   userName: string | undefined;
@@ -45,6 +49,7 @@ export default function index() {
   const [didFetch, setDidFetch] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
   const [showStete, setShowState] = useState<IState>("Info");
+  const [showPostModal,setShowPostModal] =useState<boolean>(false);
   const { userInfoContext, getUserInfoContext } = useContext(UserContext);
   const { userName } = useParams<IParams>();
   let token = localStorage.getItem("accessToken");
@@ -69,6 +74,10 @@ export default function index() {
       setDidFetch(true);
     });
   }, []);
+  
+  useEffect(()=>{
+    
+  },[userInfo])
 
   const handleShowState = (event: React.SyntheticEvent, newState: IState) => {
     event.preventDefault();
@@ -83,6 +92,14 @@ export default function index() {
       UserApiCall.unfollow(userInfo?._id)
     }else{
       UserApiCall.follow(userInfo?._id)
+    }
+  }
+
+  const handleChangeModal = async()=>{
+    if (showPostModal==true){
+      setShowPostModal(false)
+    }else{
+      setShowPostModal(true)
     }
   }
 
@@ -309,6 +326,7 @@ export default function index() {
             mr: 1,
             textTransform: "none",
           }}
+          onClick={()=>setShowPostModal(true)}
         >
           <Avatar variant="rounded" sx={{ bgcolor: "inherit", m: 0 }}>
             <AddCircleIcon fontSize="medium" />
@@ -362,11 +380,14 @@ export default function index() {
             </TabList>
           </Box>
           <TabPanel value="Info" sx={{ width: "100%", padding: 0 }}>
-            <InfoBox {...userInfo} />
+            <InfoBox userInfo={userInfo} />
           </TabPanel>
           <TabPanel value="Event">Event</TabPanel>
-          <TabPanel value="Post">Post</TabPanel>
+          <TabPanel value="Post" sx={{ width: "100%", padding: 0 }}>
+            <PostBox userInfo={userInfo}/>
+          </TabPanel>
         </TabContext>
+        {showPostModal==true?<AddPostModal userInfo={userInfo} handleChangeModal={handleChangeModal} open={showPostModal}/> : ""}
       </Box>
     </Container>
   ) : (
