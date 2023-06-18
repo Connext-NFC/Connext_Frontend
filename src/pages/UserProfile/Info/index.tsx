@@ -25,7 +25,7 @@ import youtubeImg from "../../../assets/Social/youtube.png";
 import discordImg from "../../../assets/Social/discord.png";
 import twitterImg from "../../../assets/Social/twitter.png";
 import telegramImg from "../../../assets/Social/telegram.png";
-import linkedInImg from "../../../assets/Social/linkedIn.png";
+import linkedInImg from "../../../assets/Social/linkedin.png";
 import facebookImg from "../../../assets/Social/facebook.png";
 
 const SOCIALS_PATH_LIST: { [key in SOCIAL_LIST]: string } = {

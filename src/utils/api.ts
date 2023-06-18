@@ -6,8 +6,8 @@ export default <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     baseURL: `${import.meta.env.VITE_API_URL}`,
     responseType: "json",
     headers : { 
-      'ngrok-skip-browser-warning':true,
-      "Content-Type":"application/json'",
+      // 'ngrok-skip-browser-warning':true,
+      // "Content-Type":"application/json'",
     }
   });
   api.interceptors.response.use(
