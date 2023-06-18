@@ -2,8 +2,6 @@ import { IUserInfo } from "../../types/User";
 import api from "../../utils/api";
 import type { IUserApiCall } from "./types";
 
-const token = localStorage.getItem("accessToken");
-
 const UserApiCall: IUserApiCall = {
   getUserInfo: async () => {
     const token = await localStorage.getItem("accessToken");
@@ -20,13 +18,11 @@ const UserApiCall: IUserApiCall = {
     return api({
       method: "GET",
       url: `/user/getOtherUserInfo/${userName}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
   },
 
   updateUserInfo: async (payload: IUserInfo) => {
+    const token = localStorage.getItem("accessToken");
     return api({
       method: "PATCH",
       url: `/user/editUserInfo`,
@@ -38,6 +34,7 @@ const UserApiCall: IUserApiCall = {
   },
 
   follow:async(followId : string | undefined)=>{
+    const token = localStorage.getItem("accessToken");
     return api({
       method:"POST",
       url:`/user/follow`,
@@ -49,6 +46,7 @@ const UserApiCall: IUserApiCall = {
   },
 
   unfollow:async(unfllowId:string | undefined)=>{
+    const token = localStorage.getItem("accessToken");
     return api({
       method:"POST",
       url:`/user/unfollow`,
