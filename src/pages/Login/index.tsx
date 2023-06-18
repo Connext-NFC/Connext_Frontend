@@ -19,10 +19,12 @@ import { AuthApiCall } from "../../services/Auth/auth";
 import { IUserCredential } from "../../types/User";
 import { regexValidator } from "../../utils/regexValidator";
 import { AlertContext } from "../../context/alertContext";
+import { UserContext } from "../../context/userContext";
 
 export default function index() {
   const navigate = useNavigate();
   const { handleAlertChange } = useContext(AlertContext);
+  const { getUserInfoContext} = useContext(UserContext);
   const [loading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +36,7 @@ export default function index() {
     //   email: data.get("email"),
     //   password: data.get("password"),
     // });
-
+    
     let input = {
       email: data.get("email"),
       password: data.get("password"),
@@ -44,10 +46,11 @@ export default function index() {
       hashPassword(input);
 
       AuthApiCall.login(input).then((res) => {
-        console.log("res", res);
+        // console.log("res", res);
         if (res.status === 200) {
           handleAlertChange({ type: "success", msg: "Login Success" });
           localStorage.setItem("accessToken", res.data.accessToken);
+          getUserInfoContext()
           navigate("/");
         } else {
           handleAlertChange({ type: "error", msg: res.data.message || res });

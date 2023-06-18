@@ -1,0 +1,14 @@
+version: '3'
+services:
+  api:
+    container_name: nfc_front
+    build:
+      context: .
+    restart: always
+    networks:
+      - nginx
+
+networks:
+  nginx:
+    name: nginx_default
+    driver: bridge
