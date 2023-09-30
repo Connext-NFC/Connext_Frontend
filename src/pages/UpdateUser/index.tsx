@@ -50,48 +50,6 @@ import { UserInfo } from "os";
 type Props = {};
 
 function index({}: Props) {
-  const MOCK_USERINFO = {
-    email: {
-      isShow: false,
-      data: "ootcazy55@gmail.com",
-    },
-    phone: {
-      isShow: true,
-      data: "0863520489",
-    },
-    website: {
-      isShow: true,
-      data: "www.google.com",
-    },
-    socialMedia: {
-      line: "",
-      instagram: "",
-      tiktok: "",
-      youtube: "",
-      discord: "",
-      twitter: "",
-      telegram: "",
-      linkedIn: "",
-      facebook: "555",
-    },
-    _id: "646ba53a9d5c9dca2f491f29",
-    userID: "fedadef9-3b11-4b2b-8ee1-5b47404e893a",
-    firstName: "Sirasit",
-    lastName: "Thaincharoenchail",
-    bornDate: "2003-03-05T00:00:00.000Z",
-    attention: ["Marketing", "Business", "Finance", "Technology", "Art"],
-    userName: "ootcazy2",
-    userImg: "/default/profileImg/defultProfile.png",
-    wallpaperImg: "/default/wallpaperImg/defultWallpaper.png",
-    followers: [],
-    following: [],
-    posts: [],
-    createdAt: "2023-05-22T17:24:10.626Z",
-    updatedAt: "2023-05-22T17:25:26.733Z",
-    __v: 0,
-    career: "student",
-    shortBio: "This is oot!",
-  };
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -181,23 +139,20 @@ function index({}: Props) {
         msg: "Register Process Successfully",
       });
 
-      localStorage.setItem("accessToken", authAPIResponse.data.accessToken);
-      navigate("/")
+      let token = authAPIResponse.data.accessToken;
 
-      // let token = authAPIResponse.data.accessToken;
+      const userAPIResponse: AxiosResponse<IUserInfo> =
+        await UserApiCall.getUserInfo();
 
-      // const userAPIResponse: AxiosResponse<IUserInfo> =
-      //   await UserApiCall.getUserInfo();
+      handleAlertChange({});
 
-      // handleAlertChange({});
-
-      // if (userAPIResponse.status === 200) {
-      //   setUserInfo(userAPIResponse.data);
-      //   setDidFetch(true);
-      //   localStorage.setItem("accessToken", token);
-      // } else {
-      //   navigate("/login");
-      // }
+      if (userAPIResponse.status === 200) {
+        setUserInfo(userAPIResponse.data);
+        setDidFetch(true);
+        localStorage.setItem("accessToken", token);
+      } else {
+        navigate("/login");
+      }
     }
   };
 
@@ -387,9 +342,10 @@ function index({}: Props) {
   }
 
   useEffect(() => {
-    // setUserInfo(MOCK_USERINFO);
-    // setDidFetch(true);
-    // console.log(userInfo);
+    UserApiCall.getUserInfo().then((res) => {
+        setUserInfo(res.data);
+        setDidFetch(true);
+      });
 
     handleAlertChange({});
   }, []);
@@ -402,28 +358,118 @@ function index({}: Props) {
   }, [userInfo]);
 
   return (
-    <Container maxWidth="xs">
-      {didFetch && userInfo != null ? (
         <Container maxWidth="xs">
           <Typography variant="h4" sx={{ textAlign: "left" }}>
-            Update Information
+            Update user info
           </Typography>
           <Box
             component="form"
             onSubmit={async (event) => {
-              handleUpdate(event);
+              await handleSubmit(event);
               setIsLoading(false);
             }}
             noValidate
-            sx={{ mt: 1, width: 400 }}
+            sx={{ mt: 1 }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="firstName"
+                label="First Name"
+                type="text"
+                id="firstName"
+                autoComplete="first-name"
+                inputProps={{ maxLength: 50 }}
+                sx={{
+                  mr: 2,
+                  "& fieldset": {
+                    borderRadius: "16px",
+                  },
+                }}
+
+                // TODO: validate onMouseLeft
+                // onBlur={(e) => regexValidator.name(e.target.value)}
+                // error={(e) => !regexValidator.name(e.target.value)}
+                // helperText="Please specify the first name"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="lastName"
+                label="Last Name"
+                type="text"
+                id="lastName"
+                autoComplete="last-name"
+                inputProps={{ maxLength: 50 }}
+                sx={{
+                  "& fieldset": {
+                    borderRadius: "16px",
+                  },
+                }}
+              />
+            </Box>
+            <Box sx={{ mt: 1 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker", "DatePicker"]}>
+                  <DatePicker
+                    label="Date of birth"
+                    value={bDay}
+                    defaultValue={dayjs("2005-05-01")}
+                    defaultCalendarMonth={dayjs("2005-05-01")}
+                    slotProps={{
+                      textField: {
+                        helperText: "MM/DD/YYYY",
+                      },
+                    }}
+                    onChange={(newValue) => setBDay(newValue)}
+                    sx={{
+                      width: "100%",
+                      "& fieldset": {
+                        borderRadius: "16px",
+                      },
+                    }}
+                  />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Box>
+            <FormControl
+                sx={{
+                  minWidth: 200,
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "start",
+                  my: 1,
+                  "& fieldset": {
+                    borderRadius: "16px",
+                  },
+                }}
+              >
+                <InputLabel id="demo-simple-select-helper-label">
+                  Career
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-helper-label"
+                  id="select-helper"
+                  value={career}
+                  label="Career"
+                  onChange={(event) => setCareer(event.target.value)}
+                >
+                  <MenuItem value="student">Student</MenuItem>
+                  <MenuItem value="privateCompanyEmployees">
+                    Private Company Employees
+                  </MenuItem>
+                  <MenuItem value="stateEnterpriseEmployees">
+                    State Enterprise Employees
+                  </MenuItem>
+                  <MenuItem value="civilServant">Civil Servant</MenuItem>
+                  <MenuItem value="factoryWorkers">Factory Workers</MenuItem>
+                  <MenuItem value="businessOwner">Business Owner</MenuItem>
+                  <MenuItem value="other">Other</MenuItem>
+                </Select>
+              </FormControl>
               <FormControl
                 sx={{
                   minWidth: 200,
@@ -505,7 +551,9 @@ function index({}: Props) {
                 </Select>
               </FormControl>
               <Divider />
-              <Box sx={{ my: 2 }}>
+              {userInfo!=null?(
+              <>
+                <Box sx={{ my: 2 }}>
                 {privateAbleKey.map((social: privateAbleKeyType) => (
                   <PrivateAbleTextFields
                     key={social}
@@ -519,194 +567,9 @@ function index({}: Props) {
               <SocialTextFields
                 socialMedia={userInfo.socialMedia}
                 handleChange={handleSocialChange}
-              />
-              <Box
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "end",
-                }}
-              >
-                <Button
-                  type="submit"
-                  variant={isChange ? "contained" : "outlined"}
-                  sx={{
-                    px: 1,
-                    py: 2,
-                    width: "30%",
-                    borderRadius: "16px",
-                    fontWeight: "bold",
-                    fontSize: "0.93rem",
-                  }}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <CircularProgress color="inherit" size={16} />
-                  ) : (
-                    <Typography
-                      color={isChange ? "white" : "primary"}
-                      sx={{ fontWeight: "bold", fontSize: "1.1rem" }}
-                    >
-                      {isChange ? "Save" : "Skip"}
-                    </Typography>
-                  )}
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-        </Container>
-      ) : (
-        <Container maxWidth="xs">
-          <Typography variant="h4" sx={{ textAlign: "left" }}>
-            Create New Account
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={async (event) => {
-              await handleSubmit(event);
-              setIsLoading(false);
-            }}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="firstName"
-                label="First Name"
-                type="text"
-                id="firstName"
-                autoComplete="first-name"
-                inputProps={{ maxLength: 50 }}
-                sx={{
-                  mr: 2,
-                  "& fieldset": {
-                    borderRadius: "16px",
-                  },
-                }}
-
-                // TODO: validate onMouseLeft
-                // onBlur={(e) => regexValidator.name(e.target.value)}
-                // error={(e) => !regexValidator.name(e.target.value)}
-                // helperText="Please specify the first name"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="lastName"
-                label="Last Name"
-                type="text"
-                id="lastName"
-                autoComplete="last-name"
-                inputProps={{ maxLength: 50 }}
-                sx={{
-                  "& fieldset": {
-                    borderRadius: "16px",
-                  },
-                }}
-              />
-            </Box>
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              type="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              inputProps={{ maxLength: 50 }}
-              sx={{
-                "& fieldset": {
-                  borderRadius: "16px",
-                },
-              }}
-            />
-            <FormControl sx={{ my: 1, width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <OutlinedInput
-                id="password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={(event) => event.preventDefault()}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-                fullWidth={true}
-                sx={{
-                  "& fieldset": {
-                    borderRadius: "16px",
-                  },
-                }}
-              />
-            </FormControl>
-            <FormControl sx={{ my: 1, width: "100%" }} variant="outlined">
-              <InputLabel htmlFor="confirmPassword">
-                Confirm Password
-              </InputLabel>
-              <OutlinedInput
-                id="confirmPassword"
-                type={showCPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowCPassword}
-                      onMouseDown={(event) => event.preventDefault()}
-                      edge="end"
-                    >
-                      {showCPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Confirm Password"
-                fullWidth={true}
-                sx={{
-                  "& fieldset": {
-                    borderRadius: "16px",
-                  },
-                }}
-              />
-            </FormControl>
-            <Box sx={{ mt: 1 }}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker", "DatePicker"]}>
-                  <DatePicker
-                    label="Date of birth"
-                    value={bDay}
-                    defaultValue={dayjs("2005-05-01")}
-                    defaultCalendarMonth={dayjs("2005-05-01")}
-                    slotProps={{
-                      textField: {
-                        helperText: "MM/DD/YYYY",
-                      },
-                    }}
-                    onChange={(newValue) => setBDay(newValue)}
-                    sx={{
-                      width: "100%",
-                      "& fieldset": {
-                        borderRadius: "16px",
-                      },
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </Box>
+                />
+              </>):("")}
+              
 
             <Typography
               variant="body2"
@@ -745,8 +608,6 @@ function index({}: Props) {
             </Button>
           </Box>
         </Container>
-      )}
-    </Container>
   );
 }
 

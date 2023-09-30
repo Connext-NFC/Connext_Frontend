@@ -3,7 +3,7 @@ import { IUserRegisterInfo, IUserCredential, IChangePassword } from "../../types
 import type { IAuthApiCall } from "./types";
 
 const token = localStorage.getItem("accessToken");
-const forgotToken = localStorage.getItem("forgotToken");
+// const forgotToken = localStorage.getItem("forgotToken");
 
 const AuthApiCall: IAuthApiCall = {
   login: async (userCredential: IUserCredential) => {
@@ -31,6 +31,7 @@ const AuthApiCall: IAuthApiCall = {
   },
 
   verifyOTPForgot: async(otp : string)=>{
+    const forgotToken = await localStorage.getItem("forgotToken");
     return api({
       method:"POST",
       url:`/auth/verifyOTPForgot`,
@@ -42,7 +43,7 @@ const AuthApiCall: IAuthApiCall = {
   },
 
   changeForgotPassword : async(changePassword:IChangePassword)=>{
-    console.log(changePassword)
+    const forgotToken = await localStorage.getItem("forgotToken");
     return api({
       method:"PATCH",
       url:`/auth/changeForgotPassword`,

@@ -1,10 +1,17 @@
-import React, { useEffect, useState,useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { Container,Typography,Button,CircularProgress,TextField,Link,Box} from "@mui/material";
-import { IChangePassword } from "../../types/User";
-import { AlertContext } from "../../context/alertContext";
-import { AuthApiCall } from "../../services/Auth/auth";
-import { regexValidator } from "../../utils/regexValidator";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Button,
+  CircularProgress,
+  TextField,
+  Box,
+} from "@mui/material";
+import { IChangePassword } from "../../../types/User";
+import { AlertContext } from "../../../context/alertContext";
+import { AuthApiCall } from "../../../services/Auth/auth";
+import { regexValidator } from "../../../utils/regexValidator";
 import { SHA256 } from "crypto-js";
 
 type Props = {};
@@ -21,16 +28,19 @@ function index({}: Props) {
     const data = new FormData(event.currentTarget);
 
     let input = {
-        newPassword: data.get("password"),
-        confirmPassword : data.get("confirmPassword")
+      newPassword: data.get("password"),
+      confirmPassword: data.get("confirmPassword"),
     };
 
     if (validateNewPasswordData(input)) {
-        hashPassword(input)
+      hashPassword(input);
       AuthApiCall.changeForgotPassword(input).then((res) => {
         console.log("res", res);
         if (res.status === 200) {
-          handleAlertChange({ type: "success", msg: "OTP sent to your email" });
+          handleAlertChange({
+            type: "success",
+            msg: "Your password has been changed",
+          });
           localStorage.removeItem("forgotToken");
           navigate("/login");
         } else {
@@ -40,22 +50,34 @@ function index({}: Props) {
     } else {
       handleAlertChange({
         type: "error",
-        msg: "Your email or password are incorrect format",
+        msg: "Password must contain requirement",
       });
     }
     setIsLoading(false);
   };
 
-  function validateNewPasswordData({newPassword,confirmPassword}:IChangePassword): boolean {
-    if (typeof newPassword === "string" && typeof confirmPassword === "string") {
-      return regexValidator.password(newPassword) && regexValidator.password(confirmPassword);
+  function validateNewPasswordData({
+    newPassword,
+    confirmPassword,
+  }: IChangePassword): boolean {
+    if (
+      typeof newPassword === "string" &&
+      typeof confirmPassword === "string"
+    ) {
+      return (
+        regexValidator.password(newPassword) &&
+        regexValidator.password(confirmPassword)
+      );
     }
     return false;
   }
 
   function hashPassword(payload: IChangePassword): void {
     // Generate a salt Hash the password Ref: https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
-    if (typeof payload.newPassword === "string" && typeof payload.confirmPassword === "string"  ) {
+    if (
+      typeof payload.newPassword === "string" &&
+      typeof payload.confirmPassword === "string"
+    ) {
       // Create a hash object with the SHA-256 algorithm
       payload.newPassword = SHA256(payload.newPassword).toString();
       payload.confirmPassword = SHA256(payload.confirmPassword).toString();
@@ -65,9 +87,10 @@ function index({}: Props) {
   return (
     <Container maxWidth="xs">
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <Typography variant="h4" sx={{ textAlign: "left" }}>
-            Forgot Password
-          </Typography>
+        <Typography variant="h4" sx={{ textAlign: "left" }}>
+          Reset Password
+        </Typography>
+        <Box sx={{ mt: 2, mb: 4 }}>
           <TextField
             margin="normal"
             required
@@ -102,33 +125,34 @@ function index({}: Props) {
             }}
             onChange={() => handleAlertChange({})}
           />
+        </Box>
         <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 3,
-                mb: 2,
-                px: 1,
-                py: 2,
-                borderRadius: "16px",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "0.93rem",
-              }}
-              disabled={loading}
-            >
-              {loading ? (
-                <CircularProgress color="inherit" size={16} />
-              ) : (
-                <Typography sx={{ fontWeight: "bold", fontSize: "1.1rem" }}>
-                  Next
-                </Typography>
-              )}
-            </Button>
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{
+            mt: 3,
+            mb: 2,
+            px: 1,
+            py: 2,
+            borderRadius: "16px",
+            color: "white",
+            fontWeight: "bold",
+            fontSize: "0.93rem",
+          }}
+          disabled={loading}
+        >
+          {loading ? (
+            <CircularProgress color="inherit" size={16} />
+          ) : (
+            <Typography sx={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+              UPDATE PASSWORD
+            </Typography>
+          )}
+        </Button>
       </Box>
     </Container>
-  )
+  );
 }
 
 export default index;

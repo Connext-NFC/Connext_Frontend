@@ -1,14 +1,15 @@
 import { createBrowserRouter, Link, Outlet } from "react-router-dom";
 import { AlertProvider } from "./context/alertContext";
+import { UserProvider } from "./context/userContext";
 import CustomAlert from "./components/CustomAlert";
 
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import NotFound404 from "./pages/NotFound404";
-import ForgotPassword2 from "./pages/ForgotPassword2";
-import ForgotPassword1 from "./pages/ForgotPassword1";
-import ForgotPassword3 from "./pages/ForgotPassword3";
+import ForgotPassword from "./pages/ForgotPassword";
+import UserProfile from "./pages/UserProfile";
+import UpdateUser from "./pages/UpdateUser";
 
 import { Box } from "@mui/system";
 
@@ -25,18 +26,20 @@ const Navbar = () => (
 //TODO: create header and add header to router
 const Layout = () => (
   <AlertProvider>
-    <Box
-      sx={{
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <CustomAlert />
-      {/* <header>
-        <Navbar />
-      </header> */}
-      <Outlet />
-    </Box>
+    <UserProvider>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <CustomAlert />
+        {/* <header>
+          <Navbar />
+        </header> */}
+        <Outlet />
+      </Box>
+    </UserProvider>
   </AlertProvider>
 );
 
@@ -59,17 +62,17 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path:"forgotPassword1",
-        element:<ForgotPassword1/>
+        path:"forgotPassword",
+        element:<ForgotPassword />
       },
       {
-        path:"forgotPassword2",
-        element:<ForgotPassword2/>
+        path:"userProfile/:userName",
+        element:<UserProfile/>
       },
       {
-        path:"forgotPassword3",
-        element:<ForgotPassword3/>
-      },
+        path:"UpdateUser",
+        element:<UpdateUser/>
+      }
     ],
   },
 ]);
